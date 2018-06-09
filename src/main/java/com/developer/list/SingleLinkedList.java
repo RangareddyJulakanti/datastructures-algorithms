@@ -1,25 +1,27 @@
 package com.developer.list;
 
+import java.util.ArrayList;
+
 /**
  * Created by RANGAREJ on 6/9/2018.
  */
-public class SingleLinkedList<T> {
-    private Node<T> head;
+public class SingleLinkedList<E> implements ISingleLinkedList<E>{
+    private Node<E> head;
     private int length;
-    public boolean addFirst(T data) {
-        Node<T> newNode = new Node<>(data, null);
+    public boolean addFirst(E data) {
+        Node<E> newNode = new Node<>(data, null);
         newNode.next = head;
         head = newNode;
         length++;
         return true;
     }
 
-    public boolean addLast(T data) {
-        Node<T> newNode = new Node<>(data, null);
+    public boolean addLast(E data) {
+        Node<E> newNode = new Node<>(data, null);
         if(head==null){
             head = newNode;
         }else{
-            Node<T> tempNode = head;
+            Node<E> tempNode = head;
             while (tempNode.next != null) {
                 tempNode = tempNode.next;
             }
@@ -29,28 +31,28 @@ public class SingleLinkedList<T> {
         return true;
     }
 
-    public static class Node<T> {
-        private T data;
-        private Node<T> next;
+    public static class Node<E> {
+        private E data;
+        private Node<E> next;
 
-        public Node(T data, Node<T> next) {
+        public Node(E data, Node<E> next) {
             this.data = data;
             this.next = next;
         }
 
-        public T getData() {
+        public E getData() {
             return data;
         }
 
-        public void setData(T data) {
+        public void setData(E data) {
             this.data = data;
         }
 
-        public Node<T> getNext() {
+        public Node<E> getNext() {
             return next;
         }
 
-        public void setNext(Node<T> next) {
+        public void setNext(Node<E> next) {
             this.next = next;
         }
 
@@ -61,9 +63,15 @@ public class SingleLinkedList<T> {
     }
 
     public boolean clear() {
-        head = null;
+        Node<E> tempNode=head;
+         while(tempNode!=null){
+             tempNode=tempNode.next;
+             tempNode.next=null;
+         }
         return true;
     }
+
+
 
     @Override
     public String toString() {
@@ -72,11 +80,11 @@ public class SingleLinkedList<T> {
                 '}';
     }
 
-    public Node<T> getHead() {
+    public Node<E> getHead() {
         return head;
     }
 
-    public void setHead(Node<T> head) {
+    public void setHead(Node<E> head) {
         this.head = head;
     }
 
