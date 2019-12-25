@@ -30,6 +30,54 @@ public class SingleLinkedList<E> implements ISingleLinkedList<E>{
         length++;
         return true;
     }
+    public boolean addLast(Node<E> node) {
+        Node<E> newNode = node;
+        if(head==null){
+            head = newNode;
+        }else{
+            Node<E> tempNode = head;
+            while (tempNode.next != null) {
+                tempNode = tempNode.next;
+            }
+            tempNode.next = newNode;
+        }
+        length++;
+        return true;
+    }
+
+    @Override
+    public E findMergeNode(Node<E> head1, Node<E> head2) {
+        int l=findLength(head1);
+        int m=findLength(head2);
+        Node<E> temp1=head1;
+        Node<E> temp2=head2;
+        if(l>m){
+            int d=l-m;
+
+            for(int i=0;i<d;i++){
+                temp1=temp1.next;
+            }
+        }else{
+            int d=m-l;
+            for(int i=0;i<d;i++){
+                temp2=temp2.next;
+            }
+        }
+        while(temp1!=temp2){
+            temp1=temp1.next;
+            temp2=temp2.next;
+        }
+        return temp1.data;
+    }
+    private int findLength(Node<E> node){
+        Node<E> temp=node;
+        int i=0;
+        while(temp!=null){
+            i++;
+            temp=temp.next;
+        }
+        return i;
+    }
 
     public static class Node<E> {
         private E data;

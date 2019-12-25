@@ -22,4 +22,6 @@ public interface ISingleLinkedList<E>{
      * @return
      */
     public boolean addLast(E data);
+
+    public E findMergeNode(SingleLinkedList.Node<E> head1, SingleLinkedList.Node<E> head2);
 }

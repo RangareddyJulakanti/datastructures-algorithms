@@ -1,7 +1,10 @@
 package com.developer.list;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.results.ResultMatchers;
 
 /**
  * Created by RANGAREJ on 6/9/2018.
@@ -32,6 +35,36 @@ public class SingleLinkedListTest {
         Assert.assertEquals(50,singleLinkedList.getHead().getData().intValue());
 
         System.out.println("End Add elements @ last always");
+    }
+
+    /**
+     * 1
+     * 1
+     * 3
+     * 1
+     * 2
+     * 3
+     * 1
+     * 1
+     */
+    @Test
+    public void findMergeNode(){
+
+        SingleLinkedList.Node<Integer> common=new SingleLinkedList.Node<>(2,null);
+        common.setNext(new SingleLinkedList.Node<>(1,null));
+
+        SingleLinkedList<Integer> singleLinkedList1=new SingleLinkedList<>();
+        singleLinkedList1.addLast(1);
+        singleLinkedList1.addLast(3);
+        singleLinkedList1.addLast(common);
+        SingleLinkedList<Integer> singleLinkedList2=new SingleLinkedList<>();
+        singleLinkedList2.addLast(  1);
+        singleLinkedList2.addLast(1);
+        singleLinkedList2.addLast(common);
+
+       Integer mergeNodeData= new SingleLinkedList<Integer>().findMergeNode(singleLinkedList1.getHead(),singleLinkedList2.getHead());
+       Assert.assertThat(mergeNodeData, Is.is(2));
+
     }
 
 }
