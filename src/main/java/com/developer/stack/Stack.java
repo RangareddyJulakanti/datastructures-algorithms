@@ -2,20 +2,20 @@ package com.developer.stack;
 
 import java.util.Arrays;
 
-public class Stack<T> {
-    private Object[] data;
+ class Stack<T> {
+    private T[] array;
     private int elementCount;
     private int top;
-    public  Stack(int capacity){
-        data=new Object[capacity];
+    Stack(int capacity){
+        array=(T[])new Object[capacity];
         top=-1;
     }
-    public void push(T t){
+    void push(T t){
         ensureCapacity();
-        data[elementCount++]=t;
+        array[elementCount++]=t;
         top++;
     }
-    public T pop(){
+     T pop(){
        T t=peek();
        removeAt(top);
        top--;
@@ -24,23 +24,23 @@ public class Stack<T> {
 
     private void removeAt(int i) {
         if(size()>=i)
-         data[i]=null;
+         array[i]=null;
          elementCount--;
     }
 
     public T peek(){
-        if(data.length-1>top) {
-            return (T) data[top];
+        if(top!=-1) {
+            return array[top];
         }
         else
         {
-         throw new RuntimeException("");
+         throw new RuntimeException("stack is empty");
         }
     }
 
     private void ensureCapacity() {
-        if(data.length-1==size()){
-            data= Arrays.copyOf(data,2*data.length);
+        if(top==array.length-1){
+            array= Arrays.copyOf(array,2*array.length);
         }
     }
 
