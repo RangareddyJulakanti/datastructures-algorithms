@@ -15,6 +15,7 @@ public class KMPSearchMatching {
                 i++;
                 j++;
             }
+
             if(j==M){
                 System.out.println("Found pattern @ index"+(i-j));
                 j=lps[j-1];
