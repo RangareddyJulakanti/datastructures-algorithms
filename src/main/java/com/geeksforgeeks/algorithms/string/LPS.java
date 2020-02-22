@@ -1,5 +1,8 @@
 package com.geeksforgeeks.algorithms.string;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Longest proper prefix suffix
  */
@@ -11,7 +14,6 @@ public class LPS {
         int n=lps.length;
         int len=0;
         int i=1;
-
         while(i<n){
             if(str[i]==str[len]){
                 len++;
@@ -24,7 +26,6 @@ public class LPS {
                 }else{
                     len=lps[len-1];
                 }
-
             }
         }
 
