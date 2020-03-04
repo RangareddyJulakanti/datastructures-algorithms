@@ -1,0 +1,143 @@
+If you write software, distributing your software with Docker will make it easier for
+your users to install and run it. Writing your software in a Docker-wrapped development
+environment will save you time configuring or sharing that environment,
+because from the perspective of your software, every environment is the same.
+Suppose you own or manage large-scale systems or data centers. Creating build,
+test, and deployment pipelines is simplified using Docker because moving any software
+through such a pipeline is identical to moving any other software through.
+Launched in March 2013, Docker works with your operating system to package,
+ship, and run software. You can think of Docker as a software logistics provider that will
+save you time and let you focus on high-value activities. You can use Docker with network
+applications like web servers, databases, and mail servers and with terminal applications
+like text editors, compilers, network analysis tools, and scripts; in some cases it’s
+even used to run GUI applications like web browsers and productivity software.
+NOT JUST LINUX Docker is Linux software but works well on most operating
+systems.
+Docker isn’t a programming language, and it isn’t a framework for building software.
+Docker is a tool that helps solve common problems like installing, removing, upgrading,
+distributing, trusting, and managing software. It’s open source Linux software,
+which means that anyone can contribute to it, and it has benefited from a variety of
+perspectives. It’s common for companies to sponsor the development of open source
+projects. In this case, Docker Inc. is the primary sponsor. You can find out more about
+Docker Inc. at https://docker.com/company/.
+1.1 What is Docker?
+Docker is a command-line program, a background daemon, and a set of remote services
+that take a logistical approach to solving common software problems and simplifying
+your experience installing, running, publishing, and removing software. It
+accomplishes this using a UNIX technology called containers.
+1.1.1 Containers
+Historically, UNIX-style operating systems have used the term jail to describe a modified
+runtime environment for a program that prevents that program from accessing
+protected resources. Since 2005, after the release of Sun’s Solaris 10 and Solaris Containers,
+container has become the preferred term for such a runtime environment. The
+goal has expanded from preventing access to protected resources to isolating a process
+from all resources except where explicitly allowed.
+Using containers has been a best practice for a long time. But manually building
+containers can be challenging and easy to do incorrectly. This challenge has put them
+out of reach for some, and misconfigured containers have lulled others into a false
+sense of security. We need a solution to this problem, and Docker helps. Any software
+run with Docker is run inside a container. Docker uses existing container engines to
+provide consistent containers built according to best practices. This puts stronger
+security within reach for everyone.
+With Docker, users get containers at a much lower cost. As Docker and its container
+engines improve, you get the latest and greatest jail features. Instead of keeping
+up with the rapidly evolving and highly technical world of building strong application
+jails, you can let Docker handle the bulk of that for you. This will save you a lot of time
+and money and bring peace of mind.
+1.1.2 Containers are not virtualization
+Without Docker, businesses typically use hardware virtualization (also known as virtual
+machines) to provide isolation. Virtual machines provide virtual hardware on which
+an operating system and other programs can be installed. They take a long time
+(often minutes) to create and require significant resource overhead because they run
+a whole copy of an operating system in addition to the software you want to use.
+Unlike virtual machines, Docker containers don’t use hardware virtualization. Programs
+running inside Docker containers interface directly with the host’s Linux kernel.
+Because there’s no additional layer between the program running inside the
+container and the computer’s operating system, no resources are wasted by running
+redundant software or simulating virtual hardware. This is an important distinction.
+Docker is not a virtualization technology. Instead, it helps you use the container technology
+already built into your operating system.
+1.1.3 Running software in containers for isolation
+As noted earlier, containers have existed for decades. Docker uses Linux namespaces
+and cgroups, which have been part of Linux since 2007. Docker doesn’t provide the
+container technology, but it specifically makes it simpler to use. To understand what
+containers look like on a system, let’s first establish a baseline. Figure 1.1 shows a basic
+example running on a simplified computer system architecture.
+Notice that the command-line interface, or CLI, runs in what is called user space
+memory just like other programs that run on top of the operating system. Ideally
+The first thing you should do to test your current setup is check which containers are
+currently running by using the docker ps command:
+docker ps
+Running the command will display the following information about each running
+container:
+The container ID
+The image used
+ The command executed in the container
+The time since the container was created
+The duration that the container has been running
+The network ports exposed by the containerThe name of the container
+At this point you should have three running containers with names: web, mailer, and
+agent. If any is missing but you’ve followed the example thus far, it may have been mistakenly
+stopped. This isn’t a problem because Docker has a command to restart a container.
+The next three commands will restart each container using the container
+name. Choose the appropriate ones to restart the containers that were missing from
+the list of running containers.
+docker restart web
+docker restart mailer
+docker restart agent
+Now that all three containers are running, you need to test that the system is operating
+correctly. The best way to do that is to examine the logs for each container. Start
+with the web container:
+docker logs web
+That should display a long log with several lines that contain this substring:
+"GET / HTTP/1.0" 200
+This means that the web server is running and that the agent is testing the site. Each
+time the agent tests the site, one of these lines will be written to the log. The docker
+logs command can be helpful for these cases but is dangerous to rely on. Anything
+that the program writes to the stdout or stderr output streams will be recorded in this
+log. The problem with this pattern is that the log is never rotated or truncated, so the
+data written to the log for a container will remain and grow as long as the container
+exists. That long-term persistence can be a problem for long-lived processes. A better
+way to work with log data uses volumes and is discussed in chapter 4.
+Licensed to
+
+and the role container linking plays in that situation. You’ll need the information in
+this chapter before any of that will make sense.
+5.1 Networking background
+A quick overview of relevant networking concepts will be helpful for understanding
+the topics in this chapter. This section includes only high-level detail; so if you’re an
+expert, feel free to skip ahead.
+Networking is all about communicating between processes that may or may not
+share the same local resources. To understand the material in this chapter you only
+need to consider a few basic network abstractions that are commonly used by processes.
+The better understanding you have of networking, the more you’ll learn about
+the mechanics at work. But a deep understanding isn’t required to use the tools provided
+by Docker. If anything, the material contained herein should prompt you to
+independently research selected topics as they come up. Those basic abstractions used
+by processes include protocols, network interfaces, and ports.
+5.1.1 Basics: protocols, interfaces, and ports
+A protocol with respect to communication and networking is a sort of language. Two
+parties that agree on a protocol can understand what each other is communicating.
+This is key to effective communication. Hypertext Transfer Protocol (HTTP) is one
+popular network protocol that many people have heard of. It’s the protocol that provides
+the World Wide Web. A huge number of network protocols and several layers of
+communication are created by those protocols. For now, it’s only important that you
+know what a protocol is so that you can understand network interfaces and ports.
+A network interface has an address and represents a location. You can think of interfaces
+as analogous to real-world locations with addresses. A network interface is like a
+mailbox. Messages are delivered to a mailbox for recipients at that address, and messages
+are taken from a mailbox to be delivered elsewhere.
+Whereas a mailbox has a postal address, a network interface has an IP address,
+which is defined by the Internet Protocol. The details of IP are interesting but outside
+of the scope of this book. The important thing to know about IP addresses is that they
+are unique in their network and contain information about their location on their
+network.
+It’s common for computers to have two kinds of interfaces: an Ethernet interface
+and a loopback interface. An Ethernet interface is what you’re likely most familiar
+with. It’s used to connect to other interfaces and processes. A loopback interface isn’t
+connected to any other interface. At first this might seem useless, but it’s often useful
+to be able to use network protocols to communicate with other programs on the same
+computer. In those cases a loopback is a great solution.
+In keeping with the mailbox metaphor, a port is like a recipient or a sender. There
+might be several people who receive messages at a single address. For example, a single
+address might receive messages for Wendy Webserver, Deborah Database, and
